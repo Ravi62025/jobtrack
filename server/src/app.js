@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const applicationRoutes = require("./routes/application.routes");
+const authRoutes=require('./routes/auth.routes');
 
 const app = express();
 
@@ -11,5 +13,8 @@ app.get("/api/health", (req, res) => {
         message: "JobTrack API is running"
     });
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/applications", applicationRoutes);
 
 module.exports = app;
