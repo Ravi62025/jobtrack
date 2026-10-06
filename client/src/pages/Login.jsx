@@ -27,15 +27,14 @@ function Login() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "3rem auto", fontFamily: "sans-serif" }}>
+    <div className="card auth-card">
       <h1>Login</h1>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <div className="alert-error">{error}</div>}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-field">
           <label htmlFor="email">Email</label>
-          <br />
           <input
             id="email"
             type="email"
@@ -45,9 +44,8 @@ function Login() {
           />
         </div>
 
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-field">
           <label htmlFor="password">Password</label>
-          <br />
           <input
             id="password"
             type="password"
@@ -57,12 +55,12 @@ function Login() {
           />
         </div>
 
-        <button type="submit" disabled={submitting}>
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
           {submitting ? "Logging in..." : "Login"}
         </button>
       </form>
 
-      <p>
+      <p className="auth-switch">
         Don't have an account? <Link to="/register">Register</Link>
       </p>
     </div>

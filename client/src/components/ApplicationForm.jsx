@@ -37,13 +37,10 @@ function ApplicationForm({
     onSubmit(formData);
   };
 
-  const fieldStyle = { marginBottom: "1rem" };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div style={fieldStyle}>
+    <form className="card" onSubmit={handleSubmit}>
+      <div className="form-field">
         <label htmlFor="company">Company *</label>
-        <br />
         <input
           id="company"
           name="company"
@@ -54,9 +51,8 @@ function ApplicationForm({
         />
       </div>
 
-      <div style={fieldStyle}>
+      <div className="form-field">
         <label htmlFor="role">Role *</label>
-        <br />
         <input
           id="role"
           name="role"
@@ -67,43 +63,42 @@ function ApplicationForm({
         />
       </div>
 
-      <div style={fieldStyle}>
-        <label htmlFor="status">Status</label>
-        <br />
-        <select
-          id="status"
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
+      <div className="form-grid">
+        <div className="form-field">
+          <label htmlFor="status">Status</label>
+          <select
+            id="status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+          >
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="jobType">Job type</label>
+          <select
+            id="jobType"
+            name="jobType"
+            value={formData.jobType}
+            onChange={handleChange}
+          >
+            {JOB_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div style={fieldStyle}>
-        <label htmlFor="jobType">Job type</label>
-        <br />
-        <select
-          id="jobType"
-          name="jobType"
-          value={formData.jobType}
-          onChange={handleChange}
-        >
-          {JOB_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div style={fieldStyle}>
+      <div className="form-field">
         <label htmlFor="location">Location</label>
-        <br />
         <input
           id="location"
           name="location"
@@ -113,9 +108,8 @@ function ApplicationForm({
         />
       </div>
 
-      <div style={fieldStyle}>
+      <div className="form-field">
         <label htmlFor="jobUrl">Job posting URL</label>
-        <br />
         <input
           id="jobUrl"
           name="jobUrl"
@@ -125,33 +119,32 @@ function ApplicationForm({
         />
       </div>
 
-      <div style={fieldStyle}>
-        <label htmlFor="appliedDate">Applied date</label>
-        <br />
-        <input
-          id="appliedDate"
-          name="appliedDate"
-          type="date"
-          value={formData.appliedDate}
-          onChange={handleChange}
-        />
+      <div className="form-grid">
+        <div className="form-field">
+          <label htmlFor="appliedDate">Applied date</label>
+          <input
+            id="appliedDate"
+            name="appliedDate"
+            type="date"
+            value={formData.appliedDate}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="deadline">Deadline</label>
+          <input
+            id="deadline"
+            name="deadline"
+            type="date"
+            value={formData.deadline}
+            onChange={handleChange}
+          />
+        </div>
       </div>
 
-      <div style={fieldStyle}>
-        <label htmlFor="deadline">Deadline</label>
-        <br />
-        <input
-          id="deadline"
-          name="deadline"
-          type="date"
-          value={formData.deadline}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div style={fieldStyle}>
+      <div className="form-field">
         <label htmlFor="notes">Notes</label>
-        <br />
         <textarea
           id="notes"
           name="notes"
@@ -161,7 +154,7 @@ function ApplicationForm({
         />
       </div>
 
-      <button type="submit" disabled={submitting}>
+      <button type="submit" className="btn btn-primary" disabled={submitting}>
         {submitting ? "Saving..." : submitLabel}
       </button>
     </form>

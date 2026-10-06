@@ -45,19 +45,23 @@ function EditApplication() {
   };
 
   if (loading) {
-    return <p style={{ padding: "2rem" }}>Loading application...</p>;
+    return <p className="status-message">Loading application...</p>;
   }
 
   // Loading finished but there is no application: the fetch failed
   if (!application) {
-    return <p style={{ padding: "2rem", color: "red" }}>{error}</p>;
+    return (
+      <div className="page-narrow">
+        <div className="alert-error">{error}</div>
+      </div>
+    );
   }
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "500px" }}>
+    <div className="page-narrow">
       <h1>Edit Application</h1>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <div className="alert-error">{error}</div>}
 
       <ApplicationForm
         key={application._id}

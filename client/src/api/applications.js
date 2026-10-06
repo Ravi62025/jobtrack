@@ -24,3 +24,8 @@ export const deleteApplication = async (id) => {
   const response = await api.delete(`/applications/${id}`);
   return response.data;
 };
+
+export const getApplicationStats = async () => {
+  const response = await api.get("/applications/stats");
+  return response.data;
+};

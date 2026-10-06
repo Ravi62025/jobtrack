@@ -28,15 +28,14 @@ function Register() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "3rem auto", fontFamily: "sans-serif" }}>
+    <div className="card auth-card">
       <h1>Register</h1>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <div className="alert-error">{error}</div>}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-field">
           <label htmlFor="name">Name</label>
-          <br />
           <input
             id="name"
             type="text"
@@ -46,9 +45,8 @@ function Register() {
           />
         </div>
 
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-field">
           <label htmlFor="email">Email</label>
-          <br />
           <input
             id="email"
             type="email"
@@ -58,9 +56,8 @@ function Register() {
           />
         </div>
 
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-field">
           <label htmlFor="password">Password</label>
-          <br />
           <input
             id="password"
             type="password"
@@ -70,12 +67,12 @@ function Register() {
           />
         </div>
 
-        <button type="submit" disabled={submitting}>
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
           {submitting ? "Creating account..." : "Register"}
         </button>
       </form>
 
-      <p>
+      <p className="auth-switch">
         Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>

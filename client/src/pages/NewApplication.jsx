@@ -24,10 +24,10 @@ function NewApplication() {
   };
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "500px" }}>
+    <div className="page-narrow">
       <h1>Add Application</h1>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <div className="alert-error">{error}</div>}
 
       <ApplicationForm
         onSubmit={handleCreate}
