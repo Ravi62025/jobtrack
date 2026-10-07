@@ -1,43 +1,548 @@
-/* Filters */
-.filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-.filters input[type="text"] { flex: 1 1 200px; width: auto; }
-.filters select { width: auto; }
-
-/* Application cards */
-.app-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
-.app-card-title { margin: 0; font-size: 1.1rem; }
-.app-card-role { margin: 0 0 0.75rem; color: var(--muted); }
-.app-card-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.25rem 1rem;
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
+/* ---------- Filters toolbar (Applications page) ---------- */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    padding: var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
 }
-.app-card-actions { display: flex; gap: 0.5rem; }
-.app-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
 
-/* Status badges */
-.badge { padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
-.badge-wishlist { background: #e5e7eb; color: #374151; }
-.badge-applied { background: #dbeafe; color: #1e40af; }
-.badge-interviewing { background: #fef3c7; color: #92400e; }
-.badge-offer { background: #dcfce7; color: #166534; }
-.badge-rejected { background: #fee2e2; color: #991b1b; }
+/* Search is the primary control: it grows to fill the row */
+.search-field {
+    position: relative;
+    flex: 1 1 16rem;
+    min-width: 0;
+}
 
-/* Pagination */
-.pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem; }
+.search-field svg {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    width: 1rem;
+    height: 1rem;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+}
 
-/* Dashboard stats */
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1rem; }
-.stat-card { text-align: center; padding: 1rem; }
-.stat-value { font-size: 2rem; font-weight: 700; }
-.stat-label { color: var(--muted); font-size: 0.9rem; }
+.search-field input[type="text"] {
+    padding-left: 2.25rem;
+}
 
-/* Responsive */
+.filters select {
+    flex: 0 1 11rem;
+    width: auto;
+    min-width: 0;
+    /* stops long option text from forcing sideways scroll */
+}
+
+.filters-actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-shrink: 0;
+}
+
+/* ---------- Application list and cards ---------- */
+.app-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+}
+
+.app-list>.card {
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.app-list>.card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
+}
+
+/* Top: company and role on the left, badge on the right */
+.app-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.app-card-head>div {
+    min-width: 0;
+    /* lets long company names wrap instead of overflowing */
+}
+
+.app-card-head .badge {
+    flex-shrink: 0;
+}
+
+.app-card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+}
+
+.app-card-role {
+    margin: 2px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+}
+
+/* Middle: quiet facts separated by small dots */
+.app-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    margin-top: var(--space-3);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.app-card-details span {
+    overflow-wrap: anywhere;
+}
+
+.app-card-details span+span::before {
+    content: "\2022";
+    margin-right: var(--space-2);
+    color: var(--border-strong);
+}
+
+/* Bottom: actions, separated by a thin line and aligned right */
+.app-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+}
+
+/* Delete is quiet: white at rest, soft red on hover */
+.app-card-actions .btn-danger {
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--danger);
+}
+
+.app-card-actions .btn-danger:hover {
+    background: var(--danger-soft);
+    border-color: #fca5a5;
+    color: var(--danger-hover);
+}
+
+/* ---------- Status badges ---------- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* Small dot in the text color, so status isn't shown by color alone */
+.badge::before {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.badge-wishlist {
+    background: var(--surface-muted);
+    border-color: var(--border);
+    color: var(--text-secondary);
+}
+
+.badge-applied {
+    background: var(--info-soft);
+    color: var(--info);
+}
+
+.badge-interviewing {
+    background: var(--warning-soft);
+    color: var(--warning);
+}
+
+.badge-offer {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.badge-rejected {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+/* ---------- Empty states ---------- */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-7) var(--space-5);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+
+.empty-state .section-title {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.empty-state p {
+    max-width: 30rem;
+    margin: 0;
+    color: var(--muted);
+}
+
+.empty-state .btn {
+    margin-top: var(--space-2);
+}
+
+/* ---------- Pagination bar ---------- */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.pagination-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.pagination-page {
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.pagination-total {
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+/* ---------- Loading / info messages ---------- */
+/* The block itself is styled in layout.css (.status-message). */
+.status-message a {
+    font-weight: 600;
+}
+
+/* ---------- Dashboard KPI cards ---------- */
+/* Always 3 columns x 2 rows. Narrower than 400px it becomes 2 x 3. */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.stat-card {
+    /* Each status class below sets --stat-accent. Cards without one are neutral. */
+    --stat-accent: var(--border-strong);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 7.5rem;
+    /* every card has the same height */
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition), box-shadow var(--transition),
+        transform var(--transition);
+}
+
+.stat-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+}
+
+/* Label with a small colored status dot */
+.stat-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.stat-label::before {
+    content: "";
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--stat-accent);
+}
+
+/* Big number */
+.stat-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* One class per status (added in Dashboard.jsx) */
+.stat-total {
+    --stat-accent: var(--primary);
+}
+
+.stat-wishlist {
+    --stat-accent: #94a3b8;
+}
+
+.stat-applied {
+    --stat-accent: var(--info);
+}
+
+.stat-interviewing {
+    --stat-accent: #d97706;
+}
+
+.stat-offer {
+    --stat-accent: var(--success);
+}
+
+.stat-rejected {
+    --stat-accent: var(--danger);
+}
+
+/* Total is the headline: tinted surface, indigo border, larger number */
+.stat-total {
+    background: var(--primary-soft);
+    border-color: #c7cbf5;
+}
+
+.stat-total:hover {
+    border-color: var(--primary);
+}
+
+.stat-total .stat-label {
+    color: var(--primary);
+}
+
+.stat-total .stat-value {
+    color: var(--primary);
+    font-size: 2.6rem;
+}
+
+/* ---------- Dashboard quick actions ---------- */
+.quick-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+    padding: var(--space-5);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.quick-actions-text {
+    min-width: 0;
+}
+
+.quick-actions-text .section-title {
+    margin-bottom: var(--space-1);
+}
+
+.quick-actions-text p {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--muted);
+}
+
+.quick-actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    flex-shrink: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .stat-card {
+        padding: var(--space-4);
+    }
+
+    .stat-total .stat-value {
+        font-size: 2.3rem;
+    }
+}
+
 @media (max-width: 640px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .page-header { flex-direction: column; align-items: stretch; }
-  .filters select, .filters .btn { flex: 1 1 auto; }
-  .navbar-right { margin-left: 0; width: 100%; justify-content: space-between; }
+
+    /* Header stacks: text, then a full-width button */
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page-header .btn {
+        width: 100%;
+    }
+
+    /* Toolbar: search on its own row, selects share the next row,
+     buttons share the last row */
+    .search-field {
+        flex: 1 1 100%;
+    }
+
+    .filters select {
+        flex: 1 1 8rem;
+    }
+
+    .filters-actions {
+        display: flex;
+        gap: var(--space-2);
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+
+    .filters-actions .btn {
+        flex: 1 1 0;
+    }
+
+    .app-list>.card {
+        padding: var(--space-4);
+    }
+
+    /* Easy-to-tap card buttons that share the row */
+    .app-card-actions .btn {
+        flex: 1 1 0;
+    }
+
+    .empty-state {
+        padding: var(--space-6) var(--space-4);
+    }
+
+    .empty-state .btn {
+        width: 100%;
+    }
+
+    .pagination {
+        padding: var(--space-2) var(--space-3);
+        gap: var(--space-2);
+    }
+
+    /* KPI cards: still 3 across, just tighter */
+    .stats-grid {
+        gap: var(--space-2);
+    }
+
+    .stat-card {
+        min-height: 6rem;
+        padding: var(--space-3);
+    }
+
+    .stat-label {
+        font-size: 0.78rem;
+    }
+
+    .stat-value {
+        font-size: 1.7rem;
+    }
+
+    .stat-total .stat-value {
+        font-size: 1.9rem;
+    }
+
+    /* Quick actions: text on top, buttons below */
+    .quick-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-4);
+        padding: var(--space-4);
+    }
+
+    .quick-actions-buttons .btn {
+        flex: 1 1 auto;
+    }
+}
+
+/* Very narrow phones: 2 columns x 3 rows so the numbers stay readable */
+@media (max-width: 400px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ---------- Final responsive polish ---------- */
+@media (max-width: 640px) {
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  /* Wrapped two-line KPI labels: keep the dot level with the first line */
+  .stat-label {
+    align-items: flex-start;
+    line-height: 1.3;
+  }
+  .stat-label::before {
+    margin-top: 0.3em;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stack the card facts so a wrapped line never starts with a stray dot */
+  .app-card-details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .app-card-details span + span::before {
+    content: none;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Page info on its own row, Previous and Next share the row below */
+  .pagination-info {
+    order: -1;
+    flex: 1 1 100%;
+  }
+  .pagination .btn {
+    flex: 1 1 0;
+  }
 }

@@ -11,6 +11,14 @@ const getStatusClass = (status) => {
   return `badge-${status.toLowerCase()}`;
 };
 
+// Presentation only: "Mar 12, 2026"
+const formatDate = (value) =>
+  new Date(value).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
 // Keep only filters that have a real value (no page info here)
 const buildParams = (filters) => {
   const params = {};
@@ -22,6 +30,33 @@ const buildParams = (filters) => {
 
   return params;
 };
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M8 3v10M3 8h10"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M10.5 10.5L14 14"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -115,26 +150,34 @@ function Applications() {
 
   return (
     <>
-      <div className="page-header">
-        <h1>Applications</h1>
+      <header className="page-header">
+        <div className="page-header-text">
+          <h1 className="page-title">Applications</h1>
+          <p className="page-description">
+            Track, organize, and manage your job applications.
+          </p>
+        </div>
         <Link to="/applications/new" className="btn btn-primary">
+          <PlusIcon />
           Add Application
         </Link>
-      </div>
+      </header>
 
       <form className="filters" onSubmit={handleApply}>
-        <input
-          type="text"
-          name="company"
-          placeholder="Search by company"
-          value={filters.company}
-          onChange={handleFilterChange}
-        />
-        <button type="submit" className="btn" disabled={loading}>
-          Search
-        </button>
+        <div className="search-field">
+          <SearchIcon />
+          <input
+            type="text"
+            name="company"
+            placeholder="Search by company"
+            aria-label="Search by company"
+            value={filters.company}
+            onChange={handleFilterChange}
+          />
+        </div>
         <select
           name="status"
+          aria-label="Filter by status"
           value={filters.status}
           onChange={handleFilterChange}
         >
@@ -147,24 +190,26 @@ function Applications() {
         </select>
         <select
           name="sort"
+          aria-label="Sort order"
           value={filters.sort}
           onChange={handleFilterChange}
         >
           <option value="">Newest first (default)</option>
-          <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
         </select>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          Apply Filters
-        </button>
-        <button
-          type="button"
-          className="btn"
-          onClick={handleClear}
-          disabled={loading}
-        >
-          Clear
-        </button>
+        <div className="filters-actions">
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            Apply Filters
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={handleClear}
+            disabled={loading}
+          >
+            Clear
+          </button>
+        </div>
       </form>
 
       {deleteError && <div className="alert-error">{deleteError}</div>}
@@ -177,12 +222,25 @@ function Applications() {
         page > 1 ? (
           <p className="status-message">No more applications on this page.</p>
         ) : hasActiveFilters ? (
-          <p className="status-message">No applications match your filters.</p>
+          <div className="empty-state">
+            <h2 className="section-title">No matching applications</h2>
+            <p>No applications match your current filters.</p>
+            <button type="button" className="btn" onClick={handleClear}>
+              Clear filters
+            </button>
+          </div>
         ) : (
-          <p className="status-message">
-            No applications yet.{" "}
-            <Link to="/applications/new">Add your first application</Link>
-          </p>
+          <div className="empty-state">
+            <h2 className="section-title">No applications yet</h2>
+            <p>
+              Start tracking your job search in one place. Add your first
+              application to get going.
+            </p>
+            <Link to="/applications/new" className="btn btn-primary">
+              <PlusIcon />
+              Add Application
+            </Link>
+          </div>
         )
       ) : (
         <ul className="app-list">
@@ -199,12 +257,11 @@ function Applications() {
               </div>
 
               <div className="app-card-details">
-                <span>Type: {app.jobType}</span>
-                <span>Location: {app.location || "Not specified"}</span>
+                <span>{app.jobType}</span>
+                <span>{app.location || "Location not specified"}</span>
                 <span>
-                  Applied:{" "}
                   {app.appliedDate
-                    ? new Date(app.appliedDate).toLocaleDateString()
+                    ? `Applied ${formatDate(app.appliedDate)}`
                     : "Not applied yet"}
                 </span>
               </div>
@@ -230,25 +287,28 @@ function Applications() {
       )}
 
       {!error && total > 0 && (
-        <div className="pagination">
+        <nav className="pagination" aria-label="Pagination">
           <button
-            className="btn"
+            className="btn btn-sm"
             onClick={handlePrevious}
             disabled={loading || page === 1}
           >
             Previous
           </button>
-          <span>
-            Page {page} of {totalPages} ({total} total)
-          </span>
+          <div className="pagination-info">
+            <span className="pagination-page">
+              Page {page} of {totalPages}
+            </span>
+            <span className="pagination-total">{total} total</span>
+          </div>
           <button
-            className="btn"
+            className="btn btn-sm"
             onClick={handleNext}
             disabled={loading || page >= totalPages}
           >
             Next
           </button>
-        </div>
+        </nav>
       )}
     </>
   );

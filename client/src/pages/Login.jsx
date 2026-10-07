@@ -27,41 +27,52 @@ function Login() {
   };
 
   return (
-    <div className="card auth-card">
-      <h1>Login</h1>
+    <div className="auth-page">
+      <p className="auth-brand">JobTrack</p>
 
-      {error && <div className="alert-error">{error}</div>}
+      <div className="card auth-card">
+        <h1>Welcome back</h1>
+        <p className="auth-subtitle">
+          Sign in to continue to your JobTrack account.
+        </p>
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        {error && <div className="alert-error">{error}</div>}
 
-        <div className="form-field">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? "Logging in..." : "Login"}
-        </button>
-      </form>
+          <div className="form-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={submitting}
+          >
+            {submitting ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
+      </div>
 
       <p className="auth-switch">
-        Don't have an account? <Link to="/register">Register</Link>
+        Don't have an account? <Link to="/register">Create one</Link>
       </p>
     </div>
   );

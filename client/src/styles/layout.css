@@ -1,26 +1,248 @@
+/* ---------- Navbar ---------- */
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
+
 .navbar-inner {
-  max-width: 960px;
+  max-width: var(--page-width); /* same width as .page so edges line up */
   margin: 0 auto;
-  padding: 0.75rem 1rem;
+  min-height: 3.75rem;
+  padding: var(--space-2) var(--space-4);
   display: flex;
   align-items: center;
-  gap: 1.25rem;
   flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
 }
-.navbar-brand { font-weight: 700; font-size: 1.15rem; color: var(--text); }
-.navbar-right { margin-left: auto; display: flex; align-items: center; gap: 0.75rem; }
-.navbar-user { color: var(--muted); font-size: 0.9rem; }
 
+/* Brand: indigo "J" mark followed by the name */
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+.navbar-brand:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+.navbar-brand::before {
+  content: "J";
+  content: "J" / ""; /* decorative letter, hidden from screen readers */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* Navigation links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.navbar-links a {
+  padding: 0.4rem var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--transition), color var(--transition);
+}
+.navbar-links a:hover {
+  background: var(--surface-muted);
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Current page: NavLink adds .active and aria-current="page" */
+.navbar-links a.active,
+.navbar-links a[aria-current="page"],
+.navbar-links a.active:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* User section on the right */
+.navbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Round avatar showing the user's first initial */
+.navbar-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-right: calc(-1 * var(--space-1));
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+}
+
+.navbar-user {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ---------- Page header ---------- */
+/* Title (and optional description) on the left, action on the right */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
 }
-.page-narrow { max-width: 600px; margin: 0 auto; }
-.status-message { padding: 2rem 1rem; text-align: center; color: var(--muted); }
+.page-header h1 {
+  margin: 0;
+}
+.page-header-text {
+  min-width: 0;
+}
+.page-header .btn {
+  flex-shrink: 0;
+}
+
+/* ---------- Dashboard header ---------- */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.dashboard-header-text {
+  min-width: 0; /* lets long names wrap instead of overflowing */
+}
+.dashboard-header .page-title {
+  overflow-wrap: anywhere;
+}
+.dashboard-email {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+.dashboard-header > .btn {
+  flex-shrink: 0;
+}
+
+/* ---------- Narrow pages (add / edit) ---------- */
+.page-narrow {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.page-narrow > h1 {
+  margin-bottom: var(--space-4);
+}
+
+/* ---------- Loading / empty / info messages ---------- */
+.status-message {
+  margin: 0;
+  padding: var(--space-7) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .navbar-inner {
+    gap: var(--space-2);
+  }
+
+  /* Row 1: brand left, user + logout right. Row 2: the links. */
+  .navbar-brand {
+    order: 1;
+  }
+  .navbar-right {
+    order: 2;
+    gap: var(--space-2);
+  }
+  .navbar-links {
+    order: 3;
+    flex-basis: 100%;
+    margin-left: calc(-1 * var(--space-3)); /* aligns link text with the brand */
+  }
+
+  .navbar-user {
+    max-width: 6rem;
+  }
+
+  /* Dashboard header: text first, full-width button below */
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .dashboard-header .page-title {
+    font-size: 1.4rem;
+  }
+  .dashboard-header > .btn {
+    width: 100%;
+  }
+}
+
+/* Very small phones: give the top row more room */
+@media (max-width: 420px) {
+  .navbar-brand {
+    font-size: 1rem;
+  }
+  .navbar-user {
+    max-width: 3.5rem;
+  }
+}
+
+/* ---------- Final responsive polish ---------- */
+.navbar-brand {
+  flex-shrink: 0; /* "JobTrack" is never squeezed by the user section */
+}
+
+@media (max-width: 640px) {
+  /* Easier-to-tap navigation links on the second navbar row */
+  .navbar-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+  }
+
+  .status-message {
+    padding: var(--space-6) var(--space-4);
+  }
+}

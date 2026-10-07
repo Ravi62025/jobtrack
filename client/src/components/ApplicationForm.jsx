@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const STATUSES = ["Wishlist", "Applied", "Interviewing", "Offer", "Rejected"];
 const JOB_TYPES = ["Full-time", "Part-time", "Internship"];
@@ -38,125 +39,150 @@ function ApplicationForm({
   };
 
   return (
-    <form className="card" onSubmit={handleSubmit}>
-      <div className="form-field">
-        <label htmlFor="company">Company *</label>
-        <input
-          id="company"
-          name="company"
-          type="text"
-          value={formData.company}
-          onChange={handleChange}
-          required
-        />
-      </div>
+    <form className="card form-card" onSubmit={handleSubmit}>
+      <section className="form-section">
+        <h2 className="form-section-title">Basics</h2>
 
-      <div className="form-field">
-        <label htmlFor="role">Role *</label>
-        <input
-          id="role"
-          name="role"
-          type="text"
-          value={formData.role}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="company">
+              Company <span className="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              value={formData.company}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <div className="form-grid">
-        <div className="form-field">
-          <label htmlFor="status">Status</label>
-          <select
-            id="status"
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-          >
-            {STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
+          <div className="form-field">
+            <label htmlFor="role">
+              Role <span className="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="role"
+              name="role"
+              type="text"
+              value={formData.role}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="form-field">
-          <label htmlFor="jobType">Job type</label>
-          <select
-            id="jobType"
-            name="jobType"
-            value={formData.jobType}
-            onChange={handleChange}
-          >
-            {JOB_TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
+        <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="status">Status</label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+            >
+              {STATUSES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="jobType">Job type</label>
+            <select
+              id="jobType"
+              name="jobType"
+              value={formData.jobType}
+              onChange={handleChange}
+            >
+              {JOB_TYPES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="form-field">
-        <label htmlFor="location">Location</label>
-        <input
-          id="location"
-          name="location"
-          type="text"
-          value={formData.location}
-          onChange={handleChange}
-        />
-      </div>
+      <section className="form-section">
+        <h2 className="form-section-title">Details</h2>
 
-      <div className="form-field">
-        <label htmlFor="jobUrl">Job posting URL</label>
-        <input
-          id="jobUrl"
-          name="jobUrl"
-          type="url"
-          value={formData.jobUrl}
-          onChange={handleChange}
-        />
-      </div>
+        <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="location">Location</label>
+            <input
+              id="location"
+              name="location"
+              type="text"
+              value={formData.location}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="jobUrl">Job posting URL</label>
+            <input
+              id="jobUrl"
+              name="jobUrl"
+              type="url"
+              value={formData.jobUrl}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="appliedDate">Applied date</label>
+            <input
+              id="appliedDate"
+              name="appliedDate"
+              type="date"
+              value={formData.appliedDate}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="deadline">Deadline</label>
+            <input
+              id="deadline"
+              name="deadline"
+              type="date"
+              value={formData.deadline}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="form-section">
+        <h2 className="form-section-title">Additional notes</h2>
+
         <div className="form-field">
-          <label htmlFor="appliedDate">Applied date</label>
-          <input
-            id="appliedDate"
-            name="appliedDate"
-            type="date"
-            value={formData.appliedDate}
+          <label htmlFor="notes">Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows={5}
+            value={formData.notes}
             onChange={handleChange}
           />
         </div>
+      </section>
 
-        <div className="form-field">
-          <label htmlFor="deadline">Deadline</label>
-          <input
-            id="deadline"
-            name="deadline"
-            type="date"
-            value={formData.deadline}
-            onChange={handleChange}
-          />
-        </div>
+      <div className="form-actions">
+        <Link to="/applications" className="btn">
+          Cancel
+        </Link>
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
+          {submitting ? "Saving..." : submitLabel}
+        </button>
       </div>
-
-      <div className="form-field">
-        <label htmlFor="notes">Notes</label>
-        <textarea
-          id="notes"
-          name="notes"
-          rows={4}
-          value={formData.notes}
-          onChange={handleChange}
-        />
-      </div>
-
-      <button type="submit" className="btn btn-primary" disabled={submitting}>
-        {submitting ? "Saving..." : submitLabel}
-      </button>
     </form>
   );
 }

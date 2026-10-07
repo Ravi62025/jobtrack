@@ -1,34 +1,154 @@
 :root {
-  --bg: #f5f6f8;
+  /* Backgrounds and surfaces */
+  --bg: #f6f7f9;
   --surface: #ffffff;
-  --text: #1f2933;
-  --muted: #6b7280;
-  --border: #d9dde3;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --danger: #dc2626;
-  --danger-hover: #b91c1c;
+  --surface-muted: #f1f3f6;
+
+  /* Text */
+  --text: #1c2430;
+  --text-secondary: #4b5565;
+  --muted: #6b7686;
+
+  /* Borders */
+  --border: #e1e5ea;
+  --border-strong: #cdd3db;
+
+  /* Brand */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #eef0ff;
+  --focus-ring: rgba(79, 70, 229, 0.35);
+
+  /* Semantic */
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --warning: #92400e;
+  --warning-soft: #fef3c7;
+  --danger: #b91c1c;
+  --danger-hover: #991b1b;
+  --danger-soft: #fee2e2;
+  --info: #1d4ed8;
+  --info-soft: #dbeafe;
+
+  /* Radius */
+  --radius-sm: 6px;
   --radius: 8px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Control sizing (shared by buttons and inputs) */
+  --control-height: 2.5rem;
+  --control-height-sm: 2rem;
+
+  /* Layout and motion */
+  --page-width: 1120px;
+  --transition: 0.16s ease;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
+html { -webkit-text-size-adjust: 100%; }
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.95rem;
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
+
+h1, h2, h3, h4 {
+  margin: 0 0 var(--space-2);
+  line-height: 1.25;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h1 { font-size: 1.6rem; font-weight: 700; }
+h2 { font-size: 1.25rem; font-weight: 650; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+
+p { margin: 0 0 var(--space-3); }
 
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-h1, h2, h3 { margin: 0 0 0.5rem; line-height: 1.25; }
+img, svg { max-width: 100%; }
+
+/* Visible keyboard focus on everything interactive */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+::placeholder { color: #9aa3b0; }
 
 .page {
-  max-width: 960px;
+  max-width: var(--page-width);
   margin: 0 auto;
-  padding: 1.5rem 1rem;
+  padding: var(--space-6) var(--space-4) var(--space-7);
+}
+
+/* Shared page title + one-line description, used on every page */
+.page-title {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.page-description {
+  margin: var(--space-1) 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Medium-weight heading for sections inside a page */
+.section-title {
+  margin: 0 0 var(--space-1);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.text-muted { color: var(--muted); }
+
+/* Respect users who ask for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+
+/* ---------- Final responsive polish ---------- */
+@media (max-width: 640px) {
+  /* Vertical padding only. Side padding stays 1rem so page content
+     keeps lining up with the navbar edges. */
+  .page {
+    padding: var(--space-5) var(--space-4) var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.4rem;
+  }
+  .page-description {
+    font-size: 0.9rem;
+  }
 }

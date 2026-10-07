@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createApplication } from "../api/applications";
 import ApplicationForm from "../components/ApplicationForm";
 
@@ -24,8 +24,17 @@ function NewApplication() {
   };
 
   return (
-    <div className="page-narrow">
-      <h1>Add Application</h1>
+    <div className="page-form">
+      <Link to="/applications" className="back-link">
+        &larr; Back to Applications
+      </Link>
+
+      <header className="form-page-header">
+        <h1 className="page-title">Add Application</h1>
+        <p className="page-description">
+          Save the details of a job you're interested in.
+        </p>
+      </header>
 
       {error && <div className="alert-error">{error}</div>}
 

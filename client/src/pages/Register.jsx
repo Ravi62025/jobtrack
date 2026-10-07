@@ -28,52 +28,63 @@ function Register() {
   };
 
   return (
-    <div className="card auth-card">
-      <h1>Register</h1>
+    <div className="auth-page">
+      <p className="auth-brand">JobTrack</p>
 
-      {error && <div className="alert-error">{error}</div>}
+      <div className="card auth-card">
+        <h1>Create your account</h1>
+        <p className="auth-subtitle">
+          Start organizing your job applications.
+        </p>
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
+        {error && <div className="alert-error">{error}</div>}
 
-        <div className="form-field">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-field">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? "Creating account..." : "Register"}
-        </button>
-      </form>
+          <div className="form-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={submitting}
+          >
+            {submitting ? "Creating account..." : "Create account"}
+          </button>
+        </form>
+      </div>
 
       <p className="auth-switch">
-        Already have an account? <Link to="/login">Login</Link>
+        Already have an account? <Link to="/login">Sign in</Link>
       </p>
     </div>
   );

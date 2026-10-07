@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getApplicationById, updateApplication } from "../api/applications";
 import ApplicationForm from "../components/ApplicationForm";
 
@@ -51,15 +51,25 @@ function EditApplication() {
   // Loading finished but there is no application: the fetch failed
   if (!application) {
     return (
-      <div className="page-narrow">
+      <div className="page-form">
+        <Link to="/applications" className="back-link">
+          &larr; Back to Applications
+        </Link>
         <div className="alert-error">{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="page-narrow">
-      <h1>Edit Application</h1>
+    <div className="page-form">
+      <Link to="/applications" className="back-link">
+        &larr; Back to Applications
+      </Link>
+
+      <header className="form-page-header">
+        <h1 className="page-title">Edit Application</h1>
+        <p className="page-description">Update the details of this application.</p>
+      </header>
 
       {error && <div className="alert-error">{error}</div>}
 
